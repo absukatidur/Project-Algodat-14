@@ -30,6 +30,7 @@ public class Main {
 
             switch (pilihan) {
                 case 1 -> tambahBuku();
+                // FIX 3: Menggunakan nama method yang benar
                 case 2 -> bookList.showBooks();
                 case 3 -> pinjamBuku();
                 case 4 -> kembalikanBuku();
@@ -66,8 +67,10 @@ public class Main {
         int stok = input.nextInt();
         input.nextLine();
 
-        bookList.addBook(new Book(id, judul, author, tahun, stok));
-        tree.insert(id); // insert ke tree
+        // FIX 1 & 6: Membuat objek Book dengan String ID dan memasukkannya ke tree
+        Book newBook = new Book(id, judul, author, tahun, stok);
+        bookList.addBook(newBook);
+        tree.insert(newBook); // insert objek Book ke tree
 
         System.out.println("Buku berhasil ditambahkan!");
     }
@@ -79,19 +82,23 @@ public class Main {
         System.out.print("Masukkan ID Buku yang ingin dipinjam: ");
         String id = input.nextLine();
 
+        // FIX 3: Menggunakan method searchBook yang sudah ditambahkan
         Book book = bookList.searchBook(id);
 
         if (book == null) {
             System.out.println("Buku tidak ditemukan.");
             return;
         }
-        if (book.getStok() <= 0) {
+        // FIX 2: Menggunakan method getStock()
+        if (book.getStock() <= 0) {
             System.out.println("Stok habis, anda masuk antrian peminjaman.");
             borrowQueue.enqueue(id);
             return;
         }
 
-        book.setStok(book.getStok() - 1);
+        // FIX 2: Menggunakan method setStock() dan getStock()
+        book.setStock(book.getStock() - 1);
+        // FIX 4: Menggunakan method addHistory yang sudah diperbaiki
         history.addHistory("PINJAM", id);
 
         System.out.println("Buku berhasil dipinjam!");
@@ -104,6 +111,7 @@ public class Main {
         System.out.print("Masukkan ID Buku yang dikembalikan: ");
         String id = input.nextLine();
 
+        // FIX 3: Menggunakan method searchBook yang sudah ditambahkan
         Book book = bookList.searchBook(id);
 
         if (book == null) {
@@ -113,13 +121,16 @@ public class Main {
 
         // jika ada antrian, orang pertama dapat buku dulu
         if (!borrowQueue.isEmpty()) {
-            String nextBorrower = borrowQueue.dequeue();
-            history.addHistory("OTOMATIS PINJAM (ANTRIAN)", nextBorrower);
-            System.out.println("Buku langsung dipinjam oleh antrian: " + nextBorrower);
+            String nextBorrowerId = borrowQueue.dequeue();
+            // FIX 4: Menggunakan method addHistory yang sudah diperbaiki
+            history.addHistory("OTOMATIS PINJAM (ANTRIAN)", nextBorrowerId);
+            System.out.println("Buku langsung dipinjam oleh antrian: " + nextBorrowerId);
             return;
         }
 
-        book.setStok(book.getStok() + 1);
+        // FIX 2: Menggunakan method setStock() dan getStock()
+        book.setStock(book.getStock() + 1);
+        // FIX 4: Menggunakan method addHistory yang sudah diperbaiki
         history.addHistory("KEMBALIKAN", id);
 
         System.out.println("Buku berhasil dikembalikan!");
@@ -132,8 +143,15 @@ public class Main {
         System.out.print("Masukkan ID Buku: ");
         String id = input.nextLine();
 
-        if (tree.search(id)) {
+        // FIX 5: tree.search sekarang mengembalikan objek Book (atau null)
+        Book foundBook = tree.search(id);
+
+        if (foundBook != null) {
             System.out.println("Buku dengan ID " + id + " ditemukan di tree!");
+            // Menampilkan detail buku untuk konfirmasi
+            System.out.println("Detail Buku:");
+            System.out.println("ID: " + foundBook.id + " | " + foundBook.title + " | "
+                    + foundBook.author + " | Tahun: " + foundBook.year + " | Stok: " + foundBook.stock);
         } else {
             System.out.println("Buku tidak ada dalam tree.");
         }

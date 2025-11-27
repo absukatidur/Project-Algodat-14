@@ -21,7 +21,8 @@ public class LinkedListBook {
         }
     }
 
-    public void display() {
+    // FIX 3: Mengubah nama method display() menjadi showBooks()
+    public void showBooks() {
         if (head == null) {
             System.out.println("Tidak ada buku!");
             return;
@@ -51,6 +52,20 @@ public class LinkedListBook {
         }
 
         System.out.println("Buku tidak ditemukan!");
+    }
+
+    // FIX 3: Menambahkan method searchBook(String id) yang hilang
+    public Book searchBook(String id) {
+        Node cur = head;
+
+        while (cur != null) {
+            if (cur.data.id.equals(id)) {
+                return cur.data;
+            }
+            cur = cur.next;
+        }
+
+        return null;
     }
 
     public void sortByTitle() {

@@ -16,7 +16,8 @@ public class BookTree {
     private Node insertRec(Node r, Book b) {
         if (r == null) return new Node(b);
 
-        if (b.id < r.data.id)
+        // FIX 5: Menggunakan String.compareTo() untuk membandingkan ID String
+        if (b.id.compareTo(r.data.id) < 0)
             r.left = insertRec(r.left, b);
         else
             r.right = insertRec(r.right, b);
@@ -24,14 +25,19 @@ public class BookTree {
         return r;
     }
 
-    public Book search(int id) {
+    // FIX 5: Mengubah parameter search menjadi String id
+    public Book search(String id) {
         return searchRec(root, id);
     }
 
-    private Book searchRec(Node r, int id) {
+    // FIX 5: Mengubah parameter searchRec menjadi String id dan menggunakan String.compareTo()
+    private Book searchRec(Node r, String id) {
         if (r == null) return null;
-        if (id == r.data.id) return r.data;
 
-        return (id < r.data.id) ? searchRec(r.left, id) : searchRec(r.right, id);
+        int compareResult = id.compareTo(r.data.id);
+
+        if (compareResult == 0) return r.data;
+
+        return (compareResult < 0) ? searchRec(r.left, id) : searchRec(r.right, id);
     }
 }
