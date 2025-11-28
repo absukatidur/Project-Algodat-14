@@ -21,7 +21,6 @@ public class LinkedListBook {
         }
     }
 
-    // FIX 3: Mengubah nama method display() menjadi showBooks()
     public void showBooks() {
         if (head == null) {
             System.out.println("Tidak ada buku!");
@@ -29,6 +28,7 @@ public class LinkedListBook {
         }
 
         Node cur = head;
+        System.out.println("=== DAFTAR SEMUA BUKU ===");
         while (cur != null) {
             Book b = cur.data;
             System.out.println("ID: " + b.id + " | " + b.title + " | "
@@ -39,22 +39,26 @@ public class LinkedListBook {
 
     public void searchByTitle(String title) {
         Node cur = head;
+        boolean found = false;
 
         while (cur != null) {
             if (cur.data.title.equalsIgnoreCase(title)) {
                 Book b = cur.data;
-                System.out.println("Buku ditemukan:");
+                if (!found) {
+                    System.out.println("Buku ditemukan:");
+                    found = true;
+                }
                 System.out.println("ID: " + b.id + " | " + b.title + " | "
                         + b.author + " | Tahun: " + b.year + " | Stok: " + b.stock);
-                return;
             }
             cur = cur.next;
         }
 
-        System.out.println("Buku tidak ditemukan!");
+        if (!found) {
+            System.out.println("Buku tidak ditemukan!");
+        }
     }
-
-    // FIX 3: Menambahkan method searchBook(String id) yang hilang
+    
     public Book searchBook(String id) {
         Node cur = head;
 
@@ -87,5 +91,7 @@ public class LinkedListBook {
                 cur = cur.next;
             }
         } while (swapped);
+        
+        System.out.println("Daftar buku berhasil diurutkan berdasarkan Judul!");
     }
 }

@@ -16,7 +16,6 @@ public class BookTree {
     private Node insertRec(Node r, Book b) {
         if (r == null) return new Node(b);
 
-        // FIX 5: Menggunakan String.compareTo() untuk membandingkan ID String
         if (b.id.compareTo(r.data.id) < 0)
             r.left = insertRec(r.left, b);
         else
@@ -25,12 +24,10 @@ public class BookTree {
         return r;
     }
 
-    // FIX 5: Mengubah parameter search menjadi String id
     public Book search(String id) {
         return searchRec(root, id);
     }
 
-    // FIX 5: Mengubah parameter searchRec menjadi String id dan menggunakan String.compareTo()
     private Book searchRec(Node r, String id) {
         if (r == null) return null;
 

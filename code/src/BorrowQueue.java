@@ -1,10 +1,10 @@
 public class BorrowQueue {
 
     private static class Node {
-        String data;
+        Main.BorrowData data;
         Node next;
 
-        Node(String data) {
+        Node(Main.BorrowData data) {
             this.data = data;
             this.next = null;
         }
@@ -16,8 +16,7 @@ public class BorrowQueue {
         front = rear = null;
     }
 
-    // Tambah ke antrian
-    public void enqueue(String data) {
+    public void enqueue(Main.BorrowData data) {
         Node newNode = new Node(data);
         if (rear == null) { 
             front = rear = newNode;
@@ -27,13 +26,12 @@ public class BorrowQueue {
         rear = newNode;
     }
 
-    // Keluarkan dari antrian
-    public String dequeue() {
+    public Main.BorrowData dequeue() {
         if (front == null) {
             return null;
         }
 
-        String data = front.data;
+        Main.BorrowData data = front.data;
         front = front.next;
 
         if (front == null) {
@@ -43,7 +41,6 @@ public class BorrowQueue {
         return data;
     }
 
-    // Cek apakah queue kosong
     public boolean isEmpty() {
         return front == null;
     }
@@ -57,7 +54,7 @@ public class BorrowQueue {
         Node temp = front;
         System.out.println("Daftar Antrian Peminjam:");
         while (temp != null) {
-            System.out.println("- " + temp.data);
+            System.out.println("- " + temp.data.toString());
             temp = temp.next;
         }
     }

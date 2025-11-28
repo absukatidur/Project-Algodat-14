@@ -3,9 +3,13 @@ import java.util.Stack;
 public class BorrowHistory {
     Stack<String> history = new Stack<>();
 
-    // FIX 4: Mengubah push menjadi addHistory untuk mencocokkan penggunaan di Main.java
-    public void addHistory(String type, String id) {
-        String historyEntry = String.format("[%s] ID Buku: %s", type, id);
+    public void addHistory(String type, Main.BorrowData data) {
+        String historyEntry = String.format("[%s] %s", type, data.toString());
+        history.push(historyEntry);
+    }
+    
+    public void addHistorySimple(String type, String bookId, String returnDate) {
+        String historyEntry = String.format("[%s] ID Buku: %s | Tanggal Kembali: %s", type, bookId, returnDate);
         history.push(historyEntry);
     }
 
