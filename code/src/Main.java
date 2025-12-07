@@ -106,7 +106,7 @@ public class Main {
         System.out.println("╔════════════════════════════════════════╗");
         System.out.println("║              NODE LIBRARY              ║"); 
         System.out.println("╠════════════════════════════════════════╣");
-        System.out.println("║    SISTEM MANAJEMEN PERPUSTAKAAN (ALGODAT) ║");
+        System.out.println("║ SISTEM MANAJEMEN PERPUSTAKAAN (ALGODAT)║");
         System.out.println("╠════════════════════════════════════════╣");
 
         for (int i = 0; i < MENU_OPTIONS.length; i++) {
@@ -231,8 +231,6 @@ public class Main {
         }
     }
     
-// ... di dalam public class Main ...
-
     public static void tambahBuku() {
         // --- UI ENHANCEMENT: Header ---
         System.out.println("\n╔════════════════════════════════════════╗");
@@ -376,7 +374,6 @@ public class Main {
     }
     
     public static void cariBukuTree() {
-        // --- UI ENHANCEMENT: Header ---
         System.out.println("\n╔════════════════════════════════════════╗");
         System.out.println("║         PENCARIAN BUKU (BY ID)         ║");
         System.out.println("╠════════════════════════════════════════╣");
@@ -386,7 +383,7 @@ public class Main {
 
         Book foundBook = tree.search(id);
 
-        System.out.println("╠════════════════════════════════════════╣"); // Separator
+        System.out.println("╠════════════════════════════════════════╣"); 
 
         if (foundBook != null) {
             System.out.println("Buku dengan ID " + id + " ditemukan di tree!");
