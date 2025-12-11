@@ -174,15 +174,15 @@ public class Main {
         input.nextLine();
     }
     
-
+    // ================= FITUR UTAMA =================
     
     public static void tambahBuku() {
         System.out.println("\n=== TAMBAH BUKU BARU ===");
         
         String id = inputID("Masukkan ID Buku (Cth: B001)");
-        if (id == null) return; 
+        if (id == null) return; // User batal
 
-     
+        // Cek ID Unik di awal
         if (bookList.isIdExists(id)) {
             System.out.println("Gagal: ID Buku " + id + " sudah ada!");
             pause();
@@ -255,7 +255,7 @@ public class Main {
             return;
         }
 
-      
+        // Cek Antrian
         if (!borrowQueue.isEmpty()) {
             BorrowData nextUser = borrowQueue.dequeue();
             history.addHistory("PINJAM-ANTRIAN", nextUser); 
