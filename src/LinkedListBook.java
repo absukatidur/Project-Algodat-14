@@ -1,5 +1,4 @@
 public class LinkedListBook {
-
     class Node {
         Book data;
         Node next;
@@ -7,10 +6,8 @@ public class LinkedListBook {
     }
 
     Node head;
-
     public void addBook(Book b) {
 
-        // Cek apakah ID sudah ada
         if (isIdExists(b.id)) {
             System.out.println("Kode buku '" + b.id + "' sudah ada! Buku tidak ditambahkan.");
             return; // hentikan
@@ -72,7 +69,7 @@ public class LinkedListBook {
         boolean found = false;
 
         System.out.println("╔════════════════════════════════════════════════════╗");
-        System.out.printf("║      HASIL PENCARIAN UNTUK JUDUL: %-18s ║\n", title.toUpperCase());
+        System.out.printf("║      HASIL PENCARIAN UNTUK JUDUL: %-18s        ║\n");
         System.out.println("╚════════════════════════════════════════════════════╝");
         
         while (cur != null) {

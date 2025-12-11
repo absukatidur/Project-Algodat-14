@@ -13,7 +13,6 @@ public class BorrowHistory {
         history.push(historyEntry);
     }
 
-    // --- UI ENHANCEMENT: Tampilan history dengan bingkai ---
     public void showHistory() {
         if (history.isEmpty()) {
             System.out.println("⏳ History transaksi masih kosong!");
@@ -21,7 +20,7 @@ public class BorrowHistory {
         }
 
         System.out.println("╔═════════════════════════════════════════════════════════════════════════╗");
-        System.out.println("║                 📚 RIWAYAT TRANSAKSI PERPUSTAKAAN (LIFO)              ║");
+        System.out.println("║                 RIWAYAT TRANSAKSI PERPUSTAKAAN (LIFO)                   ║");
         System.out.println("╠═════════════════════════════════════════════════════════════════════════╣");
         
         // Stack iterates from base to top.
