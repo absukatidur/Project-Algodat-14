@@ -4,7 +4,47 @@ import java.util.Scanner;
 
 public class Main {
 
-  
+    // ==========================================
+    // 1. STRUKTUR LINKED LIST MANUAL UNTUK MENU
+    // ==========================================
+    
+    // Node untuk menyimpan satu item menu (String)
+    static class MenuNode {
+        String data;
+        MenuNode next;
+
+        MenuNode(String data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    // Class LinkedList manual khusus Menu
+    static class MenuLinkedList {
+        MenuNode head;
+        MenuNode tail;
+        int size = 0;
+
+        // Method untuk menambah menu ke belakang
+        void add(String data) {
+            MenuNode newNode = new MenuNode(data);
+            if (head == null) {
+                head = tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+            size++;
+        }
+
+        // Method untuk mengambil jumlah menu
+        int size() {
+            return size;
+        }
+    }
+    // ==========================================
+
+
     static class BorrowData {
         String bookId;
         String borrowerName;
@@ -18,7 +58,6 @@ public class Main {
             this.borrowDate = borrowDate;
         }
 
-   
         public String toString() {
             return "Buku: " + bookId + " | Peminjam: " + borrowerName + " (" + borrowerId + ") | Tgl: " + borrowDate;
         }
@@ -30,26 +69,28 @@ public class Main {
     static BorrowHistory history = new BorrowHistory();
     static BookTree tree = new BookTree();
     
-    private static final String[] MENU_OPTIONS = {
-        "Tambah Buku", 
-        "Lihat Semua Buku", 
-        "Pinjam Buku", 
-        "Kembalikan Buku", 
-        "Lihat Antrian Peminjaman", 
-        "Lihat Riwayat Peminjaman", 
-        "Cari Buku (Tree Search)",
-        "Urutkan Daftar Buku (Sort)", 
-        "Keluar" 
-    };
+    // Ganti Array static dengan LinkedList Manual static
+    static MenuLinkedList menuOptions = new MenuLinkedList();
+
+    // Isi data menu ke dalam LinkedList manual
+    static {
+        menuOptions.add("Tambah Buku");
+        menuOptions.add("Lihat Semua Buku");
+        menuOptions.add("Pinjam Buku");
+        menuOptions.add("Kembalikan Buku");
+        menuOptions.add("Lihat Antrian Peminjaman");
+        menuOptions.add("Lihat Riwayat Peminjaman");
+        menuOptions.add("Cari Buku (Tree Search)");
+        menuOptions.add("Urutkan Daftar Buku (Sort)");
+        menuOptions.add("Keluar");
+    }
 
     public static void main(String[] args) {
         initializeData(); 
         runMenu();
     }
     
- 
     private static void initializeData() {
-
         addInitialBook("B001", "Algoritma Dasar", "Rina Sari", 2020, 5);
         addInitialBook("B002", "Struktur Data", "Budi Santoso", 2021, 3);
         addInitialBook("B003", "Java Pemula", "Citra Dewi", 2018, 8);
@@ -63,7 +104,6 @@ public class Main {
         tree.insert(b);
     }
     
-
     private static String inputString(String prompt) {
         System.out.print(prompt + " (0 utk Batal): ");
         String val = input.nextLine().trim();
@@ -75,19 +115,21 @@ public class Main {
         return val;
     }
 
-  
-    private static Integer inputNumber(String prompt) {
+private static Integer inputNumber(String prompt) {
         System.out.print(prompt + " (0 utk Batal): ");
         String str = input.nextLine().trim();
+        
         if (str.equals("0")) return null;
-        try {
-            int num = Integer.parseInt(str);
+        if (str.matches("-?\\d+")) {
+            int num = Integer.parseInt(str); // Aman diparsing karena format sudah dicek
+            
             if (num < 0) {
                 System.out.println("Error: Angka tidak boleh negatif!");
                 return inputNumber(prompt);
             }
+            
             return num;
-        } catch (NumberFormatException e) {
+        } else {
             System.out.println("Error: Input harus berupa angka!");
             return inputNumber(prompt);
         }
@@ -97,14 +139,12 @@ public class Main {
         String val = inputString(prompt);
         if (val == null) return null; 
 
-  
         if (!val.matches("^B[0-9]+$")) {
             System.out.println("Error: Format ID salah! Harus diawali 'B' diikuti angka (Cth: B001).");
             return inputID(prompt);
         }
         return val;
     }
-
 
     private static void displayMenu(int selectedOption) {
         System.out.print("\033[H\033[2J"); 
@@ -116,17 +156,30 @@ public class Main {
         System.out.println("║   Gunakan W (Atas) / S (Bawah) + Enter ║");
         System.out.println("╠════════════════════════════════════════╣");
 
-        for (int i = 0; i < MENU_OPTIONS.length; i++) {
+        // --- LOGIKA MENAMPILKAN MENU DARI LINKED LIST MANUAL ---
+        MenuNode current = menuOptions.head;
+        int i = 0;
+        
+        // Loop manual menggunakan pointer next (bukan index array)
+        while (current != null) {
+            // Cek apakah posisi (i+1) sama dengan yang dipilih user
             String prefix = (i + 1 == selectedOption) ? " >> " : "    ";
-            System.out.printf("║ %s%-33s ║\n", prefix, MENU_OPTIONS[i]);
+            
+            System.out.printf("║ %s%-33s ║\n", prefix, current.data);
+            
+            current = current.next; // Geser ke node berikutnya
+            i++;
         }
+        // -------------------------------------------------------
+
         System.out.println("╚════════════════════════════════════════╝");
         System.out.print("Navigasi: ");
     }
     
     private static void runMenu() {
         int selectedOption = 1;
-        final int MAX_OPTION = MENU_OPTIONS.length;
+        // Mengambil ukuran dari linked list manual
+        final int MAX_OPTION = menuOptions.size();
 
         while (true) {
             displayMenu(selectedOption);
@@ -182,7 +235,6 @@ public class Main {
         String id = inputID("Masukkan ID Buku (Cth: B001)");
         if (id == null) return; // User batal
 
-        // Cek ID Unik di awal
         if (bookList.isIdExists(id)) {
             System.out.println("Gagal: ID Buku " + id + " sudah ada!");
             pause();
